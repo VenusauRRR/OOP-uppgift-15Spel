@@ -47,11 +47,6 @@ public class GameSetUp {
         return temp;
     }
 
-    public static void main(String[] args) {
-        GameSetUp g = new GameSetUp();
-        System.out.println(g.toString());
-    }
-
     public int[] getIndexOfSelectedNr(String selectedNr){
         int row = -1;
         int column = -1;
@@ -72,6 +67,7 @@ public class GameSetUp {
             int indexOfSelectedNr = getIndex(selectedNr);
             shuffleGameNrList.set(indexOfSelectedNr," ");
             shuffleGameNrList.set(indexOfEmpty,selectedNr);
+            setGameFrameValue();
         }
     }
 

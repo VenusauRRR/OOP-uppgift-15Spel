@@ -12,15 +12,7 @@ public class J_15Spel extends JFrame {
 
     public void DefineVariable(){
         p = new JPanel(new GridLayout(4,4));
-        buttonList = new ArrayList<>();
-        for (int i = 0; i < 16; i++) {
-            if (i == 0){
-                buttonList.add(new JButton(" "));
-            } else {
-            buttonList.add(new JButton(String.valueOf(i)));
-            }
-        }
-        Collections.shuffle(buttonList);
+
         for (JButton i : buttonList){
             p.add(i);
         }
