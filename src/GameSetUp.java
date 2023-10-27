@@ -1,10 +1,9 @@
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Collections;
 
 public class GameSetUp {
     String[][] gameFrame;
-    ArrayList<String> shuffleGameNrList;
+    ArrayList<String> gameNrList;
 
     public void setShuffleGameNrList(){
         ArrayList<String> temp = new ArrayList<>();
@@ -16,22 +15,33 @@ public class GameSetUp {
             }
         }
         Collections.shuffle(temp);
-        this.shuffleGameNrList = new ArrayList<>(temp);
+        this.gameNrList = new ArrayList<>(temp);
     }
 
     public void setGameFrameValue(){
         int counter = 0;
         for (int i = 0; i < gameFrame.length; i++) {
             for (int j = 0; j < gameFrame[0].length; j++) {
-                gameFrame[i][j] = shuffleGameNrList.get(counter);
+                gameFrame[i][j] = gameNrList.get(counter);
                 counter++;
             }
         }
     }
 
+    public void setTestGameFrameValue(String[][] inputFrame){
+        int counter = 0;
+        for (int i = 0; i < inputFrame.length; i++) {
+            for (int j = 0; j < inputFrame[0].length; j++) {
+                gameNrList.set(counter,inputFrame[i][j]);
+                counter++;
+            }
+        }
+        setGameFrameValue();
+    }
+
     public GameSetUp(){
         gameFrame = new String[4][4];
-        shuffleGameNrList = new ArrayList<>();
+        gameNrList = new ArrayList<>();
         setShuffleGameNrList();
         setGameFrameValue();
     }
@@ -65,16 +75,19 @@ public class GameSetUp {
         if (checkIfSelectedNrNextToEmpty(selectedNr)){
             int indexOfEmpty = getIndex(" ");
             int indexOfSelectedNr = getIndex(selectedNr);
-            shuffleGameNrList.set(indexOfSelectedNr," ");
-            shuffleGameNrList.set(indexOfEmpty,selectedNr);
+            gameNrList.set(indexOfSelectedNr," ");
+            gameNrList.set(indexOfEmpty,selectedNr);
             setGameFrameValue();
+            if (isGameNrInOrder()){
+                System.out.println("You win!");
+            }
         }
     }
 
     public boolean checkIfSelectedNrNextToEmpty(String selectedNr){
         int[] temp = getIndexOfSelectedNr(selectedNr);
         return ifSelectedNrAboveIsEmpty(temp) || ifSelectedNrBelowIsEmpty(temp)
-                || ifSelectedNrLeftIsEmpty(temp) || ifSelectedNrBelowIsEmpty(temp);
+                || ifSelectedNrLeftIsEmpty(temp) || ifSelectedNrRightIsEmpty(temp);
     }
 
     public boolean ifSelectedNrAboveIsEmpty(int[] indexOfselectedNr){
@@ -122,12 +135,26 @@ public class GameSetUp {
     }
 
     public int getIndex(String nr){
-        for (int i = 0; i < shuffleGameNrList.size(); i++) {
-            if (shuffleGameNrList.get(i).equals(nr)){
+        for (int i = 0; i < gameNrList.size(); i++) {
+            if (gameNrList.get(i).equals(nr)){
                 return i;
             }
         }
         throw new NullPointerException("No such number");
+    }
+
+    public boolean isGameNrInOrder(){
+        int correctCount = 0;
+        for (int i = 1; i < 16; i++) {
+            if (gameNrList.get(0).equals(" ")){
+                if (gameNrList.get(i).equals(String.valueOf(i))){
+                    correctCount++;
+                }
+            }  else if (gameNrList.get(i-1).equals(String.valueOf(i))){
+                correctCount++;
+            }
+        }
+        return correctCount == 15 ? true : false;
     }
 
 }
