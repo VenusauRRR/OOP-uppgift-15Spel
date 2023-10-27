@@ -167,4 +167,11 @@ public class GameSetUp {
         return correctCount == 15 ? true : false;
     }
 
+    public ArrayList<String> getGameNrList() {
+        return gameNrList;
+    }
+
+    public void setGameNrList(int index, String value) {
+        this.gameNrList.set(index,value);
+    }
 }
