@@ -5,7 +5,7 @@ public class GameSetUp {
     String[][] gameFrame;
     ArrayList<String> gameNrList;
 
-    public void setShuffleGameNrList(){
+    public void setGameNrList(){
         ArrayList<String> temp = new ArrayList<>();
         for (int i = 0; i < 16; i++) {
             if (i == 0){
@@ -42,7 +42,7 @@ public class GameSetUp {
     public GameSetUp(){
         gameFrame = new String[4][4];
         gameNrList = new ArrayList<>();
-        setShuffleGameNrList();
+        setGameNrList();
         setGameFrameValue();
     }
 
