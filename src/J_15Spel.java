@@ -9,7 +9,6 @@ public class J_15Spel extends JFrame implements ActionListener{
     JPanel gamePanel;
     ArrayList<JButton> buttonList;
     JLabel youWin;
-
     JButton startNewGame;
     GameSetUp g;
     static boolean isTest = false;
@@ -28,7 +27,7 @@ public class J_15Spel extends JFrame implements ActionListener{
     };
 
     public void updateGamingBoard(){
-        for (String i : g.getGameNrList()){
+        for (String i : g.getRandomGameNrList()){
             buttonList.add(new JButton(i));
         }
         int count = 0;
@@ -42,7 +41,7 @@ public class J_15Spel extends JFrame implements ActionListener{
     public J_15Spel(){
         g = new GameSetUp();
         if (isTest){
-            g.setTestGameFrameValue(test1);
+            g.setup2DGameBoardOnTestMode(test1);
         }
         System.out.println(g.toString());
 
@@ -68,16 +67,16 @@ public class J_15Spel extends JFrame implements ActionListener{
                 p.repaint();
                 GameSetUp newGame = new GameSetUp();
                 if (isTest){
-                    newGame.setTestGameFrameValue(test2);
+                    newGame.setup2DGameBoardOnTestMode(test2);
                 }
                 System.out.println(newGame.toString());
                 for (int i = 0; i < 16; i++) {
-                    g.setGameNrList(i,newGame.getGameNrList().get(i));
+                    g.setGameNrList(i,newGame.getRandomGameNrList().get(i));
                 }
-                g.setGameFrameValue();
+                g.setup2DGameBoard();
                 int count = 0;
                 for (JButton i : buttonList){
-                    i.setText(g.getGameNrList().get(count));
+                    i.setText(g.getRandomGameNrList().get(count));
                     count++;
                 }
                 pack();
@@ -97,11 +96,11 @@ public class J_15Spel extends JFrame implements ActionListener{
         for (JButton i : buttonList){
             if (e.getSource()==i){
                 if (g.checkIfSelectedNrNextToEmpty(i.getText())){
-                    g.goSelectNr(i.getText());
+                    g.enterSelectedNr(i.getText());
                     indexOfEmpty = g.getIndex(" ");
                     indexOfSelectedNr = g.getIndex(i.getText());
                     buttonList.get(indexOfEmpty).setText(" ");
-                    buttonList.get(indexOfSelectedNr).setText(g.getGameNrList().get(indexOfSelectedNr));
+                    buttonList.get(indexOfSelectedNr).setText(g.getRandomGameNrList().get(indexOfSelectedNr));
                 }
             }
         }

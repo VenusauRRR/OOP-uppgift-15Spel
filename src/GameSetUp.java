@@ -4,43 +4,44 @@ import java.util.Collections;
 
 public class GameSetUp {
     String[][] gameFrame;
-    ArrayList<String> gameNrList;
+    ArrayList<String> randomGameNrList;
 
     //create a shuffled list of numbers for 2D gaming frame
-    public void setGameNrList(){
+    public void createRandomNrList(){
         ArrayList<String> temp = new ArrayList<>
                 (Arrays.asList(" ","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15"));
         Collections.shuffle(temp);
-        this.gameNrList = new ArrayList<>(temp);
+        this.randomGameNrList = new ArrayList<>(temp);
     }
 
-    public void setGameFrameValue(){
+    public void setup2DGameBoard(){
         int counter = 0;
         for (int i = 0; i < gameFrame.length; i++) {
             for (int j = 0; j < gameFrame[0].length; j++) {
-                gameFrame[i][j] = gameNrList.get(counter);
+                gameFrame[i][j] = randomGameNrList.get(counter);
                 counter++;
             }
         }
     }
 
+    //Constructor
     public GameSetUp(){
         gameFrame = new String[4][4];
-        gameNrList = new ArrayList<>();
-        setGameNrList();
-        setGameFrameValue();
+        randomGameNrList = new ArrayList<>();
+        createRandomNrList();
+        setup2DGameBoard();
     }
 
     //Test mode: update 2D gaming frame with test data
-    public void setTestGameFrameValue(String[][] inputFrame){
+    public void setup2DGameBoardOnTestMode(String[][] testGame){
         int counter = 0;
-        for (int i = 0; i < inputFrame.length; i++) {
-            for (int j = 0; j < inputFrame[0].length; j++) {
-                gameNrList.set(counter,inputFrame[i][j]);
+        for (int i = 0; i < testGame.length; i++) {
+            for (int j = 0; j < testGame[0].length; j++) {
+                randomGameNrList.set(counter,testGame[i][j]);
                 counter++;
             }
         }
-        setGameFrameValue();
+        setup2DGameBoard();
     }
 
     //print the 2D gaming frame
@@ -71,14 +72,14 @@ public class GameSetUp {
     }
 
     //start the game and pick a selected number
-    public void goSelectNr(String selectedNr){
+    public void enterSelectedNr(String selectedNr){
         if (checkIfSelectedNrNextToEmpty(selectedNr)){
             int indexOfEmpty = getIndex(" ");
             int indexOfSelectedNr = getIndex(selectedNr);
             //exchange locations of the selected number and empty space
-            gameNrList.set(indexOfSelectedNr," ");
-            gameNrList.set(indexOfEmpty,selectedNr);
-            setGameFrameValue();
+            randomGameNrList.set(indexOfSelectedNr," ");
+            randomGameNrList.set(indexOfEmpty,selectedNr);
+            setup2DGameBoard();
 
             //print msg if the game is finished.
             if (isGameNrInOrder()){
@@ -144,8 +145,8 @@ public class GameSetUp {
 
     //get index of desired numbers in the arraylist of game numbers
     public int getIndex(String nr){
-        for (int i = 0; i < gameNrList.size(); i++) {
-            if (gameNrList.get(i).equals(nr)){
+        for (int i = 0; i < randomGameNrList.size(); i++) {
+            if (randomGameNrList.get(i).equals(nr)){
                 return i;
             }
         }
@@ -156,22 +157,22 @@ public class GameSetUp {
     public boolean isGameNrInOrder(){
         int correctCount = 0;
         for (int i = 1; i < 16; i++) {
-            if (gameNrList.get(0).equals(" ")){
-                if (gameNrList.get(i).equals(String.valueOf(i))){
+            if (randomGameNrList.get(0).equals(" ")){
+                if (randomGameNrList.get(i).equals(String.valueOf(i))){
                     correctCount++;
                 }
-            }  else if (gameNrList.get(i-1).equals(String.valueOf(i))){
+            }  else if (randomGameNrList.get(i-1).equals(String.valueOf(i))){
                 correctCount++;
             }
         }
         return correctCount == 15 ? true : false;
     }
 
-    public ArrayList<String> getGameNrList() {
-        return gameNrList;
+    public ArrayList<String> getRandomGameNrList() {
+        return randomGameNrList;
     }
 
     public void setGameNrList(int index, String value) {
-        this.gameNrList.set(index,value);
+        this.randomGameNrList.set(index,value);
     }
 }
