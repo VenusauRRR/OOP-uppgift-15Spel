@@ -66,9 +66,7 @@ public class J_15Spel extends JFrame implements ActionListener{
         }
 
         //add action listener to "Start New Game" button
-        startNewGame.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        startNewGame.addActionListener(x -> {
                 //reset panel components before staring new game
                 p.add(gamePanel);
                 p.remove(youWin);
@@ -91,8 +89,7 @@ public class J_15Spel extends JFrame implements ActionListener{
                     count++;
                 }
                 pack();
-            }
-        });
+            });
 
         pack();
         setVisible(true);
