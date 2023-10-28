@@ -26,6 +26,7 @@ public class J_15Spel extends JFrame implements ActionListener{
             {"13","14","11","15" },
     };
 
+    //read GameSetUp.randomGameNrList to Swing and update the gaming board
     public void updateGamingBoard(){
         for (String i : g.getRandomGameNrList()){
             buttonList.add(new JButton(i));
@@ -38,6 +39,7 @@ public class J_15Spel extends JFrame implements ActionListener{
         }
     }
 
+
     public J_15Spel(){
         g = new GameSetUp();
         if (isTest){
@@ -45,6 +47,7 @@ public class J_15Spel extends JFrame implements ActionListener{
         }
         System.out.println(g.toString());
 
+        //intitiate variables
         buttonList = new ArrayList<>();
         startNewGame = new JButton("Start new game");
         youWin = new JLabel("You win!!!");
@@ -56,25 +59,33 @@ public class J_15Spel extends JFrame implements ActionListener{
         add(p);
         p.add(gamePanel,BorderLayout.NORTH);
         p.add(startNewGame,BorderLayout.SOUTH);
+
+        //add action listener to each button
         for (JButton i : buttonList){
             i.addActionListener(this);
         }
+
+        //add action listener to "Start New Game" button
         startNewGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                //reset panel components before staring new game
                 p.add(gamePanel);
                 p.remove(youWin);
                 p.repaint();
+
+                //create a new game object
                 GameSetUp newGame = new GameSetUp();
                 if (isTest){
                     newGame.setup2DGameBoardOnTestMode(test2);
                 }
-                System.out.println(newGame.toString());
+                //update the old game board with new game data.
                 for (int i = 0; i < 16; i++) {
                     g.setGameNrList(i,newGame.getRandomGameNrList().get(i));
                 }
                 g.setup2DGameBoard();
                 int count = 0;
+                //update the Swing game board
                 for (JButton i : buttonList){
                     i.setText(g.getRandomGameNrList().get(count));
                     count++;
@@ -89,6 +100,7 @@ public class J_15Spel extends JFrame implements ActionListener{
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
+    //action listener for button
     @Override
     public void actionPerformed(ActionEvent e) {
         int indexOfSelectedNr;
@@ -104,6 +116,8 @@ public class J_15Spel extends JFrame implements ActionListener{
                 }
             }
         }
+
+        //add "you win" message when the game ends
         if (g.isGameNrInOrder()){
             p.add(youWin,BorderLayout.CENTER);
             p.remove(gamePanel);
